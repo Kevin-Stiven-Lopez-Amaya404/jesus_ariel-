@@ -38,8 +38,11 @@ jobs:
     needs: test
     steps:
       - uses: actions/checkout@v4
+
+      - name: Install Railway CLI
+        run: npm install -g @railway/cli
+
       - name: Deploy a Railway
-        uses: bervProject/railway-deploy@main
-        with:
-          railway_token: ${{ secrets.RAILWAY_TOKEN }}
-          service: ${{ secrets.RAILWAY_SERVICE_NAME }}
+        run: railway up --service ${{ secrets.RAILWAY_SERVICE_NAME }} --detach
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
